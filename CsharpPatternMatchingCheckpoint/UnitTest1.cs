@@ -58,15 +58,30 @@ namespace CsharpPatternMatchingCheckpoint
         public static bool getPassOrFail_ByPropertyPatternMatching(Student student)
         {
             // Use property pattern matching to determine if Grade is pass (A,B,C) or fail (D,F) and TuitionPaid is true.
+            return (
+                student is { Grade: 'A' } || student is { Grade: 'B' } || student is { Grade: 'C' }
+                &&
+                student is { TuitionPaid: true });
         }
 
         public static bool getPassOrFail_ByTuplePatternMatching(Student student)
         {
+            var (grade, paid) = ( student.Grade, student.TuitionPaid );
+            return (grade, paid) switch
+            {
+                ('A', true) => true,
+                ('B', true) => true,
+                ('C', true) => true,
+                ('D', true) => false,
+                ('F', true) => false,
+                _ => false,
+            };
             // Use tuple pattern matching to determine if Grade is pass (A,B,C) or fail (D,F) and TuitionPaid is true.
         }
 
         public static bool getPassOrFail_ByPositionalPatternMatching(Student student)
         {
+            return (student is Student('A', true) || student is Student('B', true) || student is Student('C', true));
             // Use positional pattern matching to determine if Grade is pass (A,B,C) or fail (D,F) and TuitionPaid is true.
             // Note: You will to define the Deconstruct method for Student
         }
@@ -81,5 +96,8 @@ namespace CsharpPatternMatchingCheckpoint
 
         public Student(string firstName, string lastName, bool tuitionPaid, char grade) =>
             (FirstName, LastName, TuitionPaid, Grade) = (firstName, lastName, tuitionPaid, grade);
+
+        public Student(char grade, bool paid) => (Grade, TuitionPaid) = (grade, paid);
+        public void Deconstruct(out char grade, out bool paid) => (grade, paid) = (Grade, TuitionPaid);
     }
 }
