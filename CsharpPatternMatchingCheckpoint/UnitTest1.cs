@@ -72,8 +72,6 @@ namespace CsharpPatternMatchingCheckpoint
                 ('A', true) => true,
                 ('B', true) => true,
                 ('C', true) => true,
-                ('D', true) => false,
-                ('F', true) => false,
                 _ => false,
             };
             // Use tuple pattern matching to determine if Grade is pass (A,B,C) or fail (D,F) and TuitionPaid is true.
